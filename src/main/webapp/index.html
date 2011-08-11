@@ -1,0 +1,48 @@
+<div id="main" class="lift:surround?with=default;at=content">
+  <head_merge>
+    <title>JQPlot Example</title>      
+    
+    <script language="javascript" type="text/javascript" src="/js/jquery.jqplot.min.js"></script>
+  </head_merge>    
+  <div id="example" style="height:384; width:512px;margin:2em"></div>
+       <script class="code" type="text/javascript"> 
+      $(document).ready(function(){
+
+      var ajaxDataRenderer = function(url, plot,opt) {
+        var ret = null;
+        $.ajax({
+            // have to use synchronous here, else returns before data is fetched
+            async: false,
+            url: url,
+            dataType:'json',
+            success: function(data) {  ret = data;}
+        });
+        return ret;
+  };
+
+  $.jqplot('example', "/plot", 
+    { 
+      title:"Example Plot",
+       dataRenderer: ajaxDataRenderer,  
+      axes: {
+        xaxis: {
+          label: "X Axis",
+          pad: 0
+        },
+        yaxis: {
+            pad: 0
+
+        }
+      },
+      series:[ 
+          {
+            // Change our line width and use a diamond shaped marker.
+            lineWidth:2, 
+            markerOptions: { style:'dimaond' }
+          }]       
+    }
+  );
+   
+});
+</script>
+</div>
